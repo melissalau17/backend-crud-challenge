@@ -17,7 +17,7 @@ Proyek backend ini dibangun menggunakan **NestJS** dengan pola **modular archite
 
 ---
 
-## ⚙️ Instalasi & Menjalankan Proyek
+## Instalasi & Menjalankan Proyek
 
 ```bash
 # Clone repository

@@ -1,51 +1,34 @@
 # Backend CRUD Challenge
 
-Proyek backend menggunakan **NestJS** dengan pola **modular architecture** untuk memisahkan tanggung jawab setiap module, memudahkan maintain, testing, dan scaling.
+Proyek backend ini dibangun menggunakan **NestJS** dengan pola **modular architecture**, agar setiap module memiliki tanggung jawab yang jelas dan mudah dikembangkan, diuji, serta di-scale di masa depan.
 
-## Mengapa Menggunakan Pattern Modular?
+---
 
-- Module terpisah (Auth, User, Recipe, Ingredients) → jelas tanggung jawabnya  
-- Service bisa digunakan ulang di module lain  
-- Endpoint tertentu dilindungi JWT → aman  
-- Mudah ditest secara e2e  
+## Mengapa Menggunakan Arsitektur Modular?
 
-## Instalasi & Menjalankan
+- **Tanggung jawab terpisah**  
+  Setiap module (`Auth`, `User`, `Recipe`, `Ingredients`) memiliki peran yang jelas.  
+- **Reusability tinggi**  
+  Service pada satu module dapat digunakan di module lain.  
+- **Keamanan dengan JWT**  
+  Endpoint tertentu dilindungi oleh autentikasi berbasis **JSON Web Token**.  
+- **Mudah di-test**  
+  Struktur modular mendukung testing **end-to-end (e2e)** dan unit testing secara efisien.
+
+---
+
+## ⚙️ Instalasi & Menjalankan Proyek
 
 ```bash
+# Clone repository
 git clone <repo-url>
 cd backend-crud-challenge
+
+# Install dependencies
 npm install
-npm run start:dev   # untuk development
-npm run test:e2e    # untuk e2e test
 
-## Endpoint Utama
+# Jalankan dalam mode development
+npm run start:dev
 
-Auth
-
-POST /auth/register → daftar user baru
-
-POST /auth/login → login dan dapat JWT
-
-User
-
-GET /user → semua user
-
-GET /user/:id → detail user
-
-Recipe
-
-POST /recipes → buat recipe
-
-GET /recipes → list recipe
-
-Ingredients
-
-POST /recipes/:recipeId/ingredients → tambah ingredient
-
-GET /recipes/:recipeId/ingredients → list ingredient
-
-## Testing
-
-Menggunakan Jest & Supertest
-
-Pastikan user dibuat dulu sebelum login di test e2e
+# Jalankan e2e testing
+npm run test:e2e

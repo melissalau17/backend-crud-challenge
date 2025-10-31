@@ -6,9 +6,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RecipeService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createRecipeDto: CreateRecipeDto) {
+  async create(createRecipeDto: CreateRecipeDto) {
+    const { userId, ...data } = createRecipeDto;
+
     return this.prisma.recipe.create({
-      data: createRecipeDto,
+      data: {
+        ...data,
+        user: { connect: { id: userId } },
+      },
     });
   }
 
@@ -22,10 +27,15 @@ export class RecipeService {
     });
   }
 
-  update(id: number, updateRecipeDto: UpdateRecipeDto) {
+  async update(id: number, updateRecipeDto: UpdateRecipeDto) {
+    const { userId, ...data } = updateRecipeDto;
+
     return this.prisma.recipe.update({
       where: { id },
-      data: updateRecipeDto,
+      data: {
+        ...data,
+        ...(userId && { user: { connect: { id: userId } } }),
+      },
     });
   }
 

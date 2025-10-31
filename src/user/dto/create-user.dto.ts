@@ -10,10 +10,6 @@ export class CreateUserDto {
   @IsString()
   email: string;
 
-  @ApiProperty({ example: '1000' })
-  @IsString()
-  amount: string;
-
   @ApiProperty({ example: 'securePassword123' })
   @IsString()
   password: string;

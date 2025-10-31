@@ -1,0 +1,52 @@
+[
+  {
+    "duration": 74,
+    "fullName": "AuthController should be defined",
+    "status": "passed"
+  },
+  {
+    "duration": 49,
+    "fullName": "AppController root should return \"Hello World!\"",
+    "status": "passed"
+  },
+  {
+    "duration": 84,
+    "fullName": "RecipeService should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 39,
+    "fullName": "IngredientsService should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 114,
+    "fullName": "PrismaService should be defined",
+    "status": "passed"
+  },
+  {
+    "duration": 20,
+    "fullName": "UserService should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 12,
+    "fullName": "AuthService should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 83,
+    "fullName": "RecipeController should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 77,
+    "fullName": "IngredientsController should be defined",
+    "status": "failed"
+  },
+  {
+    "duration": 113,
+    "fullName": "UserController should be defined",
+    "status": "failed"
+  }
+]

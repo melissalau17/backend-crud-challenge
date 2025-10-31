@@ -1,18 +1,27 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
+import bcrypt from 'bcrypt';
+import { UserService } from 'src/user/user.service';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule], // Must include AuthModule
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleFixture.createNestApplication();
     await app.init();
+
+    const userService = app.get(UserService);
+    await userService.create({
+      name: 'Test User',
+      email: 'testuser@example.com',
+      password: await bcrypt.hash('password123', 10),
+    });
   });
 
   afterAll(async () => {

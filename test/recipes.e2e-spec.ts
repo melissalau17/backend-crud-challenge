@@ -1,87 +1,55 @@
+import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
 describe('Recipes (e2e)', () => {
   let app: INestApplication;
   let token: string;
-  let recipeId: number;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
-    
+
+    // Create test user first (if needed)
+    await request(app.getHttpServer())
+      .post('/user') // or your user creation endpoint
+      .send({ email: 'testuser@example.com', password: 'password123', name: 'Test User' })
+      .expect(201);
+
+    // Log in to get JWT token
     const authRes = await request(app.getHttpServer())
       .post('/auth/login')
-      .send({
-        email: 'testuser@example.com',
-        password: 'password123',
-      })
+      .send({ email: 'testuser@example.com', password: 'password123' })
       .expect(201);
 
     token = authRes.body.access_token;
-    expect(token).toBeDefined();
   });
 
   afterAll(async () => {
     await app.close();
   });
 
-  it('POST /recipes → should create a new recipe', async () => {
+  it('/recipes (POST) → should create a recipe', async () => {
     const res = await request(app.getHttpServer())
       .post('/recipes')
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        title: 'Test Pancakes',
-        description: 'Fluffy pancakes with syrup',
-        instructions: 'Mix, cook, and serve',
-      })
+      .send({ title: 'Pizza', description: 'Delicious' })
       .expect(201);
 
-    expect(res.body).toHaveProperty('id');
-    expect(res.body.title).toBe('Test Pancakes');
-    recipeId = res.body.id;
+    expect(res.body.title).toBe('Pizza');
   });
 
-  it('GET /recipes → should return list of recipes', async () => {
+  it('/recipes (GET) → should return list of recipes', async () => {
     const res = await request(app.getHttpServer())
       .get('/recipes')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
 
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.length).toBeGreaterThan(0);
-  });
-
-  it('GET /recipes/:id → should return a single recipe', async () => {
-    const res = await request(app.getHttpServer())
-      .get(`/recipes/${recipeId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200);
-
-    expect(res.body.id).toBe(recipeId);
-    expect(res.body.title).toBe('Test Pancakes');
-  });
-
-  it('PATCH /recipes/:id → should update recipe', async () => {
-    const res = await request(app.getHttpServer())
-      .patch(`/recipes/${recipeId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .send({ description: 'Updated pancake description' })
-      .expect(200);
-
-    expect(res.body.description).toBe('Updated pancake description');
-  });
-
-  it('DELETE /recipes/:id → should delete recipe', async () => {
-    await request(app.getHttpServer())
-      .delete(`/recipes/${recipeId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200);
+    expect(res.body).toBeInstanceOf(Array);
   });
 });

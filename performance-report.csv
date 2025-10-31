@@ -1,0 +1,11 @@
+NAME,DURATION,STATUS
+AuthController should be defined,74,passed
+"AppController root should return ""Hello World!""",49,passed
+RecipeService should be defined,84,failed
+IngredientsService should be defined,39,failed
+PrismaService should be defined,114,passed
+UserService should be defined,20,failed
+AuthService should be defined,12,failed
+RecipeController should be defined,83,failed
+IngredientsController should be defined,77,failed
+UserController should be defined,113,failed

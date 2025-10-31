@@ -33,14 +33,14 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    if (updateUserDto.password) {
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
-    }
-    return this.prisma.user.update({
-      where: { id },
-      data: updateUserDto,
-    });
+  if (updateUserDto.password) {
+    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
   }
+  return this.prisma.user.update({
+    where: { id },
+    data: updateUserDto,
+  });
+}
 
   async remove(id: number) {
     return await this.prisma.user.delete({
